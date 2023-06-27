@@ -1,4 +1,4 @@
-package br.com.etec.ana.trabalhoapietec.projections;
+package br.com.etec.ana.trabalhoapietec.repository.projections;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -9,15 +9,15 @@ public class ResumoContasPagar {
     private LocalDate data;
     private LocalDate datavencimento;
     private BigDecimal valor;
-    private String nome;
+    private String nomecliente;
 
 
-    public ResumoContasPagar(Integer id, LocalDate data, LocalDate datavencimento, BigDecimal valor, String nome){
+    public ResumoContasPagar(Integer id, LocalDate data, LocalDate datavencimento, BigDecimal valor, String nomecliente) {
         this.id = id;
         this.data = data;
         this.datavencimento = datavencimento;
         this.valor = valor;
-        this.nome = nome;
+        this.nomecliente = nomecliente;
     }
 
     public Integer getId() {
@@ -52,11 +52,11 @@ public class ResumoContasPagar {
         this.valor = valor;
     }
 
-    public String getNome() {
-        return nome;
+    public String getNomecliente() {
+        return nomecliente;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setNomecliente(String nomecliente) {
+        this.nomecliente = nomecliente;
     }
 }

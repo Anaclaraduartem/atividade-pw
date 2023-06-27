@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
 
-public class ContasFilter {
+public class ContasPagarFilter {
 
     @DateTimeFormat(pattern = "yyyy/mm/dd")
     private LocalDate data;
@@ -15,7 +15,7 @@ public class ContasFilter {
     private LocalDate datavencimento;
 
     private BigDecimal valor;
-    private String nome;
+    private String nomecliente;
 
     public LocalDate getData() {
         return data;
@@ -41,11 +41,11 @@ public class ContasFilter {
         this.valor = valor;
     }
 
-    public String getNome() {
-        return nome;
+    public String getNomecliente() {
+        return nomecliente;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setNomecliente(String nomecliente) {
+        this.nomecliente = nomecliente;
     }
 }

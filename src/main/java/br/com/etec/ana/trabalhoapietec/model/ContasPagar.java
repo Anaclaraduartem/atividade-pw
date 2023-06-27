@@ -6,30 +6,26 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "contaspagar")
+@Table(name="contaspagar")
 
 public class ContasPagar {
-
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Integer id;
     private LocalDate data;
     private LocalDate datavencimento;
     private BigDecimal valor;
 
-@JsonIgnore
-@ManyToOne
-
-@JoinColumn(name = "idcliente")
-private Cliente cliente;
-
+    @ManyToOne
+    @JoinColumn(name="idcliente")
+    private Cliente cliente;
 
     public Integer getId() {
         return id;

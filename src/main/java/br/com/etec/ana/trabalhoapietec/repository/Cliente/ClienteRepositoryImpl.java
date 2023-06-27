@@ -23,58 +23,56 @@ public class ClienteRepositoryImpl implements ClienteRepositoryQuery{
     @PersistenceContext
     private EntityManager manager;
 
-     public Page<Cliente> filtrar(ClienteFilter clienteFilter, Pageable pageable){
+    @Override
+    public Page<Cliente> filtrar(ClienteFilter clienteFilter, Pageable pageable) {
 
-         CriteriaBuilder builder = manager.getCriteriaBuilder();
-         CriteriaQuery<Cliente>criteria =builder.createQuery(Cliente.class);
-         Root<Cliente> root = criteria.from(Cliente.class);
+        CriteriaBuilder builder = manager.getCriteriaBuilder();
+        CriteriaQuery<Cliente> criteria = builder.createQuery(Cliente.class);
+        Root<Cliente> root = criteria.from(Cliente.class);
 
+        Predicate[] predicates = criarrestricoes(clienteFilter, builder, root);
+        criteria.where(predicates);
+        criteria.orderBy(builder.asc(root.get("nomecliente")));
 
+        TypedQuery<Cliente> query = manager.createQuery(criteria);
+        addrestricoespaginas(query, pageable);
 
-         Predicate[] predicates = criarRestricoes(clienteFilter, builder, root);
-         criteria.where(predicates);
-         criteria.orderBy(builder.asc(root.get("nome")));
+        return new PageImpl<>(query.getResultList(),pageable, total(clienteFilter));
+    }
 
-                 TypedQuery<Cliente>query = manager.createQuery(criteria);
-                 adicionarRestricoesDePaginacao(query,pageable);
-
-                 return new PageImpl<>(query.getResultList(),pageable, total(clienteFilter));
-     }
-
-    private Long total(ClienteFilter clienteFilter) {
+    private Long total(ClienteFilter clienteFilter){
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
         Root<Cliente> root = criteria.from(Cliente.class);
 
-        Predicate[] predicates = criarRestricoes(clienteFilter, builder, root);
+        Predicate[] predicates = criarrestricoes(clienteFilter, builder, root);
         criteria.where(predicates);
-        criteria.orderBy(builder.asc(root.get("nome")));
+        criteria.orderBy(builder.asc(root.get("nomecliente")));
 
         criteria.select(builder.count(root));
+
         return manager.createQuery(criteria).getSingleResult();
-
     }
 
+    private void addrestricoespaginas(TypedQuery<Cliente> query, Pageable pageable) {
+        int paginaAtual = pageable.getPageNumber();
+        int totalRegistrosPorPagina = pageable.getPageSize();
+        int primeiroRegistroPágina = paginaAtual * totalRegistrosPorPagina;
 
-    private void adicionarRestricoesDePaginacao(TypedQuery<?> query, Pageable pageable) {
-         int paginaAtual = pageable.getPageNumber();
-         int totalRegistroPorPagina = pageable.getPageSize();
-         int primeiroregistroDapagina = paginaAtual * totalRegistroPorPagina;
-
-         query.setFirstResult(primeiroregistroDapagina);
-         query.setMaxResults(totalRegistroPorPagina);
+        query.setFirstResult(primeiroRegistroPágina);
+        query.setMaxResults(totalRegistrosPorPagina);
     }
 
-    private Predicate[] criarRestricoes(ClienteFilter clienteFilter, CriteriaBuilder builder, Root<?> root){
+    private Predicate[] criarrestricoes(ClienteFilter clientefilter, CriteriaBuilder builder, Root<Cliente> root) {
+
         List<Predicate> predicates = new ArrayList<>();
 
-        if (StringUtils.isEmpty(clienteFilter.getNome())){
-          predicates.add(builder.like(builder.lower(root.get("nome")),
-
-                  "%" + clienteFilter.getNome().toLowerCase()+ "%"));
-
+        if(!StringUtils.isEmpty(clientefilter.getNomecliente())){
+            predicates.add(builder.like(builder.lower(root.get("nomecliente")),
+                    "%" + clientefilter.getNomecliente().toLowerCase() + "%"));
         }
-        return predicates.toArray((new Predicate[predicates.size()]));
+
+        return predicates.toArray(new Predicate[predicates.size()]);
     }
 }
 

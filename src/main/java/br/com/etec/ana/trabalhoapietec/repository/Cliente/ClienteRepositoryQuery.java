@@ -6,8 +6,5 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface ClienteRepositoryQuery {
-
-    public Page<Cliente> filtrar(ClienteFilter clienteFilter, Pageable pageable);
-
-
+    Page<Cliente> filtrar(ClienteFilter clienteFilter, Pageable pageable);
 }

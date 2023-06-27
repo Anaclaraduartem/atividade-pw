@@ -15,21 +15,20 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("clientes")
+@RequestMapping("/cliente")
 
 public class ClienteResource {
 
-
- @Autowired
+    @Autowired
     private ClienteRepository clienteRepository;
 
     @GetMapping("/todos")
-    public List <Cliente> listartodosClientes(){
+    public List<Cliente> listarTodosClientes(){
         return clienteRepository.findAll();
     }
-     @GetMapping()
+
+    @GetMapping()
     public Page<Cliente> pesquisar(ClienteFilter clienteFilter, Pageable pageable){
         return clienteRepository.filtrar(clienteFilter, pageable);
-     }
-
+    }
 }

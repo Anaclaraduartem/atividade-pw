@@ -1,13 +1,13 @@
 package br.com.etec.ana.trabalhoapietec.repository.filter;
 
 public class ClienteFilter {
-    private String nome;
+    private String nomecliente;
 
-    public String getNome() {
-        return nome;
+    public String getNomecliente() {
+        return nomecliente;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setNomecliente(String nomecliente) {
+        this.nomecliente = nomecliente;
     }
 }
